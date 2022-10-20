@@ -1,31 +1,29 @@
 <template>
-  <div class="container border-4 border-white rounded-lg mx-auto w-4/5 relative z-10 flex items-center pb-16 my-24 md:my-8">
+  <form @submit.prevent="createRoom">
+  <div class="container border-4 border-opacity-10 border-black rounded-lg mx-auto w-4/5 relative z-10 flex items-center pb-16 my-24 md:my-8">
     <div class="w-full flex flex-col items-center justify-between relative z-10">
-      <p class="flex items-center font-bold text-6xl text-center md:text-4xl text-white">
+      <p class="flex items-center mt-2 font-bold text-6xl text-center md:text-4xl text-black">
         Criar Sala
       </p>
+
       <div class="w-full flex flex-row justify-center space-x-3.5">
-        <div class="flex flex-col max-w-lg items-start text-lg mt-6 text-white">
+        <div class="flex flex-col max-w-lg items-center text-lg mt-6 text-black">
           <p>Nome da Sala</p>
-          <input class="rounded text-gray-700 w-96 mt-2" placeholder="Nome da Sala" type="text">
-        </div>
-        <div class="flex flex-col max-w-lg items-start text-lg mt-6 text-white">
-          <p>Senha da Sala</p>
-          <input class="rounded text-gray-700 w-96 mt-2" placeholder="Senha da Sala" type="password">
+          <input v-model="roomName" class="rounded border-black border-2 text-gray-700 w-96 mt-2" placeholder="Nome da Sala" type="text" required>
         </div>
       </div>
-      <p class="flex items-center font-bold text-6xl my-2 text-center md:text-2xl text-white">Adicionar Video</p>
-      <p class="flex items-center text-6xl my-2 text-center md:text-xl text-white">OU</p>
+      <p class="flex items-center font-bold text-6xl my-2 text-center md:text-2xl text-black">Adicionar Video</p>
+      <p class="flex items-center text-6xl my-2 text-center md:text-xl text-black">OU</p>
       <div class="w-full flex flex-row justify-center space-x-3.5">
-        <div class="flex flex-col max-w-lg items-start text-lg mt-6 text-white">
+        <div class="flex flex-col max-w-lg items-start text-lg mt-6 text-black">
           <p>Insira um link do Youtube</p>
-          <textarea id="LinkYoutube" class="rounded text-gray-700 w-[500px] h-64 mt-2" placeholder="Cole seu link aqui" type="url"></textarea>
-          <a href="#" class="block m-auto rounded bg-amber-100 hover:bg-gray-700 py-3 px-4 text-lg text-green-700 font-bold uppercase mt-10">
+          <textarea id="LinkYoutube" class="rounded border-black border-2 text-gray-700 w-[500px] h-64 mt-2" placeholder="Cole seu link aqui" type="url"></textarea>
+          <button type="submit" class="block m-auto rounded bg-amber-100 hover:bg-gray-700 py-3 px-4 text-lg text-green-700 font-bold uppercase mt-10">
             Criar Sala
-          </a>
+          </button>
         </div>
         <div class="vl"></div>
-        <div class="flex flex-col max-w-lg items-start text-lg mt-6 text-white">
+        <div class="flex flex-col max-w-lg items-start text-lg mt-6 text-black">
           <p>Suba seu próprio video</p>
           <div class="mt-2 flex justify-center items-center w-full">
             <label for="dropzone-file" class="flex flex-col justify-center items-center w-[500px] h-64 bg-white rounded-lg border-2 border-gray-300 cursor-pointer dark:hover:bg-bray-800 dark:bg-white hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-700">
@@ -36,55 +34,58 @@
               <input id="dropzone-file" type="file" accept="video/*" @change="onFilePicked" class="hidden">
             </label>
           </div>
-          <a href="#" class="block m-auto rounded bg-amber-100 hover:bg-gray-700 py-3 px-4 text-lg text-green-700 font-bold uppercase mt-10">
+          <button type="submit" class="block m-auto rounded bg-amber-100 hover:bg-gray-700 py-3 px-4 text-lg text-green-700 font-bold uppercase mt-10">
             Criar Sala
-          </a>
+          </button>
         </div>
       </div>
     </div>
   </div>
-  <video  :src=url controls> </video>
+  </form>
 </template>
 
 <script>
-import {v4} from "uuid"
-import {storage} from "@/firebase.js";
+import {storage,db} from "@/firebase.js";
 import {ref,uploadBytes} from "firebase/storage"
+import { collection, addDoc } from "firebase/firestore";
+import {v1} from "uuid"
 
 
 export default {
   name: "criarSala",
   data(){
     return {
+      roomName: '',
+      roomID:'',
       video: '',
-      url:''
-    }
-  },
-  computed:{
-    fileName(){
-      const video =this.video
-      if (video){
-        const split =video.name.split('.')
-        return `${split[0]}-${v4()}.${split[1]}`
-      }else return ''
+      path:'',
+      uploaded: false
     }
   },
   methods:{
-
-      onFilePicked({target}){
-      try{
-        this.video = target.files[0]
-        console.log(this.video)
-        const videoRef = ref(storage, `video/${this.video.name}` )
-        uploadBytes(videoRef,this.video).then(()=>{
-          alert("Video Upado!")
-        })
-        console.log(this.url)
-      }catch(err){
-        console.error(err)
-      }
-
+    createID(){
+      this.roomID=v1()
     },
+      async onFilePicked({target}) {
+          this.video = target.files[0]
+          console.log(this.video)
+          const videoRef = ref(storage, `video/${this.video.name}`)
+          uploadBytes(videoRef, this.video).then(async () => {
+            alert("Video Upado!")
+            this.uploaded = true
+            this.path =`video/${this.video.name}`
+            console.log(this.path)
+            this.createID()
+          })
+      },
+    async createRoom(){
+      await addDoc(collection(db, "roooms"), {
+        name: this.roomName,
+        id: this.roomID,
+        link: this.path,
+        uploaded:this.uploaded
+      });
+    }
   }
 }
 </script>

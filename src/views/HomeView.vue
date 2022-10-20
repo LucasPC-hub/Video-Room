@@ -1,10 +1,13 @@
 <template>
-<h1>testasdasdasdasdasdsdjoasdjaiosjioe</h1>
+ <div></div>
 </template>
 
 <script>
+
 export default {
-  name: "HomeView"
+  name: "HomeView",
+  components:{
+  }
 }
 </script>
 

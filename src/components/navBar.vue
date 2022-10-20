@@ -15,7 +15,7 @@
           </div>
           <div class="hidden sm:ml-6 sm:block">
             <div class="flex space-x-4">
-              <a v-for="item in navigation" :key="item.name" :href="item.href" :class="[item.current ? 'bg-gray-900 text-white' : 'text-white hover:bg-gray-700 hover:text-white', 'px-3 py-2 rounded-md text-sm font-medium']" :aria-current="item.current ? 'page' : undefined">{{ item.name }}</a>
+              <router-link v-for="item in navigation" :key="item.name" :to="item.href" :class="[item.current ? 'bg-gray-900 text-white' : 'text-white hover:bg-gray-700 hover:text-white', 'px-3 py-2 rounded-md text-sm font-medium']" :aria-current="item.current ? 'page' : undefined">{{ item.name }}</router-link>
             </div>
           </div>
         </div>
@@ -40,9 +40,7 @@
 import { Disclosure, DisclosureButton } from '@headlessui/vue'
 import { Bars3Icon, XMarkIcon , PlusIcon } from '@heroicons/vue/24/outline'
 const navigation = [
-  { name: 'Home', href: '/', current: true },
-  { name: 'Salas', href: 'salas', current: false },
-  { name: 'Suporte', href: 'suporte', current: false }
+  { name: 'Salas', href: '/listaSalas', current: false },
 ]
 
 </script>
