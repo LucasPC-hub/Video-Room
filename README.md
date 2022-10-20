@@ -1,24 +1,20 @@
-# video-room
+# Video Rooms
 
-## Project setup
+## O Projeto foi implantado no firebase no seguinte link : https://video-rooms.web.app/
+
+## Para rodar o Projeto basta abrir o terminal na pasta do mesmo e executar os seguintes comandos:
+
+## Para instalar os pacostes necessários :
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Para compilar e usar uma build de testes :
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### Para compilar para a produção :
 ```
 npm run build
 ```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
