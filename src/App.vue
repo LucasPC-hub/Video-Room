@@ -1,14 +1,17 @@
 <template>
-  <nav-bar></nav-bar>
+  <nav-bar/>
   <router-view />
+  <footer-bar/>
 </template>
 
 <script>
 import NavBar from "@/components/navBar";
+import FooterBar from "@/components/footer";
 
 export default {
   name: 'App',
   components: {
+    FooterBar,
     NavBar
   }
 }

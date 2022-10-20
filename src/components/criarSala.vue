@@ -45,11 +45,11 @@
 </template>
 
 <script>
-import {storage,db} from "@/firebase.js";
+import {storage,db} from "@/firebase.js"
 import {ref,uploadBytes} from "firebase/storage"
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore"
 import {v1} from "uuid"
-
+import router from "@/router/routes";
 
 export default {
   name: "criarSala",
@@ -92,6 +92,7 @@ export default {
         uploaded:this.uploaded
       }).then(()=>{
         alert('Sala Criada')
+        router.push("/listaSalas")
       } )
     }
   }

@@ -2,7 +2,7 @@
   <div class="container flex-col border-4 backdrop-blur-sm bg-white/20 border-opacity-10 border-black rounded-lg mx-auto w-4/5 relative z-10 flex items-center pb-16 my-24 md:my-8">
     <p class="font-bold p-5 text-5xl">{{name}}</p>
     <div v-if="uploaded"> <video controls onloadstart="this.volume=0.1"  :src=url title="Video Player"></video></div>
-    <div v-if="!uploaded"><iframe width="1280" height="720" :src=url allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen ></iframe></div>
+    <div v-if="!uploaded"> <iframe width="1280" height="720" :src=url allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen ></iframe></div>
   </div>
 </template>
 

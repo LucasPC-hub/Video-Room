@@ -38,5 +38,7 @@ export default {
 </script>
 
 <style scoped>
-
+footer{
+  display: none;
+}
 </style>
