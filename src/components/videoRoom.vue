@@ -1,7 +1,8 @@
 <template>
-  <div class="flex flex-col items-center container m-auto bg-amber-100 w-full">
-    <p class="font-extrabold text-4xl">{{name}}</p>
-    <iframe width="1120" height="630" :src=url title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  <div class="container flex-col border-4 backdrop-blur-sm bg-white/20 border-opacity-10 border-black rounded-lg mx-auto w-4/5 relative z-10 flex items-center pb-16 my-24 md:my-8">
+    <p class="font-bold p-5 text-5xl">{{name}}</p>
+    <div v-if="uploaded"> <video controls onloadstart="this.volume=0.1"  :src=url title="Video Player"></video></div>
+    <div v-if="!uploaded"><iframe width="1280" height="720" :src=url allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen ></iframe></div>
   </div>
 </template>
 
@@ -20,7 +21,8 @@ export default {
       docSnap:'',
       name:'',
       path:'',
-      uploaded:false
+      uploaded:false,
+      youtube:false
     }
   },props:{
     id:{
@@ -38,7 +40,12 @@ export default {
     async getUrl(){
       if (await this.docSnap.data().uploaded){
         this.url = await getDownloadURL(ref(storage, `${this.path}`))
-        console.log(this.url)
+        this.uploaded = true
+      }else{
+          let str = await this.docSnap.data().youtubelink
+          let res = str.split("=");
+          this.url="https://www.youtube.com/embed/"+res[1];
+
       }
     }
   },beforeMount() {
@@ -52,5 +59,9 @@ export default {
 
 </script>
 <style scoped>
-
+video {
+  width: 1280px;
+  height: 720px;
+  object-fit:contain;
+}
 </style>

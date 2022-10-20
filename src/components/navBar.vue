@@ -11,7 +11,9 @@
         </div>
         <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
           <div class="flex flex-shrink-0 items-center">
-            <img class="block h-8 w-auto bg-amber-100 rounded lg:block" src="../assets/logo.png" alt="Your Company" />
+            <router-link to="/">
+              <img class="block h-8 w-auto bg-amber-100 rounded lg:block" src="../assets/logo.png" alt="Your Company" />
+            </router-link>
           </div>
           <div class="hidden sm:ml-6 sm:block">
             <div class="flex space-x-4">
@@ -21,7 +23,7 @@
         </div>
         <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
           <span class="sm:ml-3">
-            <router-link to="criarSala">
+            <router-link to="/criarSala">
               <button type="button" class="inline-flex items-center rounded-md border border-transparent bg-amber-100 px-4 py-2 text-sm font-medium text-green-700 shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
           <PlusIcon class="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
           Criar Sala
